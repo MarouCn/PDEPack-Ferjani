@@ -1,0 +1,48 @@
+# Optionen für Compiler, IDEs, ...
+# Version vom Sommersemester 2017
+
+if(NOT CMAKE_VERBOSE_MAKEFILE)
+   set(CMAKE_VERBOSE_MAKEFILE TRUE CACHE STRING "Mehr Ausgaben" FORCE)
+ENDIF(NOT CMAKE_VERBOSE_MAKEFILE)
+
+# Für Visual Studio (ein "multi-target IDE" muss die folgende Variable verändert werden
+set(CMAKE_CONFIGURATION_TYPES "Release" CACHE STRING "Nur Release" FORCE)
+
+# Microsoft Visual Studio dazu bringen cmath wie im Standard zu verwenden und anderes
+# das wir Microsoft verdanken ...
+if(MSVC)
+    add_definitions(-D_USE_MATH_DEFINES)
+	add_definitions(-D_CRT_SECURE_NO_WARNINGS)      
+	set (C11FLAG "/Qstd=c++11")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /NODEFAULTLIB:LIBCMT.lib" )
+endif()
+
+# Flags für die Verwendung von C++11 für Unix-Betriebssysteme
+if(UNIX)
+   set( C11FLAG "-std=c++11" )
+endif(UNIX)
+
+# hier kann man einschalten ob Debug-Informationen mit generiert werden
+option(AddDebugBuild "EnableDebugging" OFF)
+if (AddDebugBuild)
+	if(CMAKE_CONFIGURATION_TYPES)
+		list(APPEND CMAKE_CONFIGURATION_TYPES Debug)
+		list(REMOVE_DUPLICATES CMAKE_CONFIGURATION_TYPES)
+		set(CMAKE_CONFIGURATION_TYPES "${CMAKE_CONFIGURATION_TYPES}" CACHE STRING "Add the configurations that we need" FORCE)
+	endif(CMAKE_CONFIGURATION_TYPES)
+endif(AddDebugBuild)
+
+# Für Makefiles und ordentliche(?) IDEs
+SET(CMAKE_BUILD_TYPE Release CACHE STRING "Nur Release" Force)
+
+# XCode arbeitet scheinbar nicht mit relativen Pfadangaben
+if(NOT APPLE) 
+    # Use relative paths
+    set(CMAKE_USE_RELATIVE_PATHS TRUE CACHE STRING "Relative Pfade" FORCE)
+endif(NOT APPLE)
+
+if(APPLE)
+	add_definitions(-DMACOS)
+endif(APPLE)
+
+
