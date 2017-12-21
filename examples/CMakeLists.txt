@@ -1,4 +1,4 @@
-# CMake-File für die Hauptprogramme
+# CMake-File fÃ¼r die Hauptprogramme
 
 # Name des Projekts: "PDEPack". 
 #cmake_minimum_required (VERSION 3.4)
@@ -7,7 +7,8 @@
 include (../CMakeOptions.txt)
 
 # Jedes Beispiel liegt in einem Unterverzeichnis!
-# Ein neues Beispiel muss mit add_subdirectory hinzugefügt werden!
+# Ein neues Beispiel muss mit add_subdirectory hinzugefÃ¼gt werden!
 add_subdirectory(TriLU)
 
 add_subdirectory(IterativLGS)
+add_subdirectory(Solution)
